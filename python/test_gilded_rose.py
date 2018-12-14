@@ -201,6 +201,23 @@ class GildedRoseTest(unittest.TestCase):
 
         self.assertEqual(backstage_passes.quality, 0)
 
+    def test_conjured_normal_items_degrade_twice_as_fast(self):
+        conjured_normal_item = self.normal_item
+        gilded_rose = GildedRose([conjured_normal_item])
+
+        conjured_normal_item.name = "Conjured " + conjured_normal_item.name
+        gilded_rose.update_quality()
+
+        self.assertEqual(conjured_normal_item.quality, self.normal_item.quality - EXPECTED_QUALITY_DROP * 2)
+
+    def test_sulfuras_quality_is_always_80(self):
+        sulfuras = self.sulfuras
+        gilded_rose = GildedRose([sulfuras])
+
+        sulfuras.quality = 50
+        gilded_rose.update_quality()
+
+        self.assertEqual(sulfuras.quality, 80)
 
 if __name__ == '__main__':
     unittest.main()
